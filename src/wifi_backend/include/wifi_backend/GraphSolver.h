@@ -109,18 +109,27 @@ public:
         /// This function returns the current state, return origin if we have not initialized yet
   gtsam::State get_state(size_t ct) {
     // Ensure valid states
-    assert (ct <= ct_state);
-    if (!values_all.exists(X(ct)))
-      return gtsam::State();
+    assert(ct <= ct_state);
 
-  if (config->use_odom) {
-      return values_optimized_wifi.exists(X(ct)) ?
-             gtsam::State(values_optimized_wifi.at<gtsam::Pose3>(X(ct)),
-                          ct)
-             : gtsam::State(values_all.at<gtsam::Pose3>(X(ct)),
-                            ct);
+    // Default return value if no valid state is found
+    gtsam::State default_state;
+
+    if (!values_all.exists(X(ct))) {
+        return default_state;
     }
-  }
+
+    if (config->use_odom) {
+        if (values_optimized_wifi.exists(X(ct))) {
+            return gtsam::State(values_optimized_wifi.at<gtsam::Pose3>(X(ct)), ct);
+        } else {
+            return gtsam::State(values_all.at<gtsam::Pose3>(X(ct)), ct);
+        }
+    }
+
+    // If config->use_odom is false, return the state from values_all
+    return gtsam::State(values_all.at<gtsam::Pose3>(X(ct)), ct);
+}
+
 
   gtsam::State get_state(const gtsam::Pose3& val, double ct) {
     return gtsam::State(val, ct);

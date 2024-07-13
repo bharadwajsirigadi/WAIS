@@ -1,5 +1,10 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(wifi_backend)
+
+if(POLICY CMP0048)
+  cmake_policy(SET CMP0048 NEW)
+endif()
+
+project(wifi_backend VERSION 0.1.0)
 
 # https://answers.ros.org/question/306391/how-to-use-parallel-programming-in-catkin/
 # Note: Adding OPENMP dependencies to enabling more parallelizing
@@ -28,9 +33,10 @@ find_package(TBB REQUIRED)
 
 find_package(OpenMP REQUIRED)
 if(OPENMP_FOUND)
-    message(STATUS "OPENMP FOUND")
-    set(OpenMP_FLAGS ${OpenMP_CXX_FLAGS})  # or if you use C: ${OpenMP_C_FLAGS}
-    set(OpenMP_LIBS gomp)
+  set(OpenMP_INCLUDE_DIRS ${OpenMP_INCLUDE_DIR})
+  set(OpenMP_LIBRARIES ${OpenMP_LIBRARIES})
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
 endif()
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -O3 -fsee -fomit-frame-pointer -fno-signed-zeros -fno-math-errno -funroll-loops")
