@@ -20,7 +20,7 @@ Notes:
    <arg name="rvizfile"    default = "$(find wifi_backend)/../../rviz/wifi.rviz" />
 
    <!-- Download the dataset and add the path of the bag file here -->
-   <arg name="bag_path"    default = "path/to/dataset bag file" />
+   <arg name="bag_path"    default = "/root/catkin_ws/wais_data/11-22.bag" />
 
    <!-- PLOTTING - plot the camera and robot odometry information in RVIZ -->
    <node pkg="rviz" type="rviz" name="rviz" args="-d $(arg rvizfile)"/>

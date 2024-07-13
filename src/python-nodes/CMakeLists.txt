@@ -1,5 +1,10 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(python-nodes)
+
+if(POLICY CMP0048)
+  cmake_policy(SET CMP0048 NEW)
+endif()
+
+project(python-nodes VERSION 0.1.0)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
