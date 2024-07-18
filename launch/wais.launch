@@ -43,7 +43,7 @@ Notes:
 
    <!-- MASTER NODE! -->
    <node pkg="wifi_backend" type="wifio" name="wifio_test1" output="screen" clear_params="true"
-         required="true" launch-prefix="gdb -ex run --args">
+         required="true">
 
       <remap from="/wifio/data_cam"    to="/camera/color/image_raw/compressed" />
       <remap from="/wifio/data_rel_odom"  to="/relOdom" />

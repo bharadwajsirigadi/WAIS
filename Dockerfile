@@ -38,6 +38,11 @@ RUN apt-get install -y \
     libgl1-mesa-glx \
     libgl1-mesa-dri
 
+RUN pip3 install psutil \
+    numpy==1.23.5 \
+    gtsam \
+    scipy 
+
 RUN rm -rf /var/lib/apt/lists/*
 
 RUN git clone https://github.com/borglab/gtsam.git /gtsam && \
@@ -66,6 +71,9 @@ RUN /bin/bash -c "source /opt/ros/noetic/setup.bash"
 RUN /bin/bash -c "source /opt/ros/noetic/setup.bash && cd /root/catkin_ws && catkin build -DMKL_DIR=/opt/intel/oneapi/mkl/2024.2/lib/cmake/mkl/"
 RUN echo "source /root/catkin_ws/devel/setup.bash" >> /root/.bashrc
 RUN echo "export LIBGL_ALWAYS_SOFTWARE=1" >> /root/.bashrc
+RUN echo "export DISPLAY:$DISPLAY" >> /root/.bashrc
+RUN echo "export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH" >> /root/.bashrc
+RUN echo "export XDG_RUNTIME_DIR=/tmp/runtime-root" >> /root/.bashrc
 
 WORKDIR /root/
 CMD ["bash"]
